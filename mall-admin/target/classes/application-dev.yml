@@ -22,10 +22,3 @@ spring:
 #    port: 6379 # Redis服务器连接端口
 #    password: # Redis服务器连接密码（默认为空）
 #    timeout: 300ms # 连接超时时间（毫秒）
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://192.168.177.163:8848
-      config:
-        server-addr: http://192.168.177.163:8848
-        file-extension: yaml
