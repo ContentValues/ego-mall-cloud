@@ -1,20 +1,34 @@
+server:
+  port: 8080
 spring:
-  profiles:
-    active: dev #默认为开发环境
-  application:
-    name: mall-admin
+  datasource:
+    url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 12345678
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druid
+  redis:
+    host: 192.168.177.163 # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password:  # Redis服务器连接密码（默认为空）
+    timeout: 3000ms # 连接超时时间（毫秒）
+  rabbitmq: #rabbitmq相关配置
+    host: 192.168.177.163
+    port: 5672
+    username: guest
+    password: guest
   servlet:
     multipart:
       enabled: true #开启文件上传
       max-file-size: 10MB #限制文件上传大小为10M
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://192.168.177.163:8848
-      config:
-        server-addr: http://192.168.177.163:8848
-        file-extension: yaml
-
 mybatis:
   mapper-locations:
     - classpath:dao/*.xml
@@ -25,14 +39,6 @@ jwt:
   secret: mall-admin-secret #JWT加解密使用的密钥
   expiration: 604800 #JWT的超期限时间(60*60*24*7)
   tokenHead: Bearer  #JWT负载中拿到开头
-
-redis:
-  database: mall
-  key:
-    admin: 'ums:admin'
-    resourceList: 'ums:resourceList'
-  expire:
-    common: 86400 # 24小时
 
 secure:
   ignored:
@@ -56,6 +62,22 @@ secure:
       - /admin/logout
       - /minio/upload
 
+
+
+management: #开启SpringBoot Admin的监控
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+redis:
+  database: mall
+  key:
+    admin: 'ums:admin'
+  expire:
+    common: 86400 # 24小时
 aliyun:
   oss:
     endpoint: oss-cn-shenzhen.aliyuncs.com # oss对外服务的访问域名
@@ -68,16 +90,18 @@ aliyun:
     callback: http://39.98.190.128:8080/aliyun/oss/callback # 文件上传成功后的回调地址
     dir:
       prefix: mall/images/ # 上传文件夹路径前缀
-
 minio:
-  endpoint: http://192.168.3.101:9090 #MinIO服务所在地址
+  endpoint: http://192.168.6.132:9090 #MinIO服务所在地址
   bucketName: mall #存储桶名称
   accessKey: minioadmin #访问的key
   secretKey: minioadmin #访问的秘钥
+feign:
+  okhttp:
+    enabled: true
+ribbon:
+  ConnectTimeout: 3000 #服务请求连接超时时间（毫秒）
+  ReadTimeout: 3000 #服务请求处理超时时间（毫秒）
 
 logging:
   level:
-    root: DEBUG #日志配置DEBUG,INFO,WARN,ERROR
-#    com.macro.mall: debug
-#  file: demo_log.log #配置日志生成路径
-#  path: /var/logs #配置日志文件名称
+    root: debug
