@@ -2,7 +2,13 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://nacos-registry:8848
+        server-addr: http://192.168.177.163:8848
       config:
-        server-addr: http://nacos-registry:8848
+        server-addr: http://192.168.177.163:8848
         file-extension: yaml
+
+logging:
+  level:
+    root: DEBUG
+  file:
+    path: /var/logs #配置日志文件名称

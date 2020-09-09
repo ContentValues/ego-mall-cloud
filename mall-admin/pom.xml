@@ -26,11 +26,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
         </dependency>
@@ -60,6 +55,51 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--            executions.execution.phase:此处配置了在maven打包应用时构建docker镜像；-->
+            <!--            imageName：用于指定镜像名称，mall-tiny是仓库名称，${project.artifactId}为镜像名称，${project.version}为仓库名称；-->
+            <!--            dockerHost：打包后上传到的docker服务器地址；-->
+            <!--            baseImage：该应用所依赖的基础镜像，此处为java；-->
+            <!--            entryPoint：docker容器启动时执行的命令；-->
+            <!--            resources.resource.targetPath：将打包后的资源文件复制到该目录；-->
+            <!--            resources.resource.directory：需要复制的文件所在目录，maven打包的应用jar包保存在target目录下面；-->
+            <!--            resources.resource.include：需要复制的文件，打包好的应用jar包-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imageName>mall/${project.artifactId}:${project.version}</imageName>
+                    <dockerHost>http://192.168.177.163:2375</dockerHost>
+                    <baseImage>java:8</baseImage>
+                    <entryPoint>["java", "-jar", "-Dspring.profiles.active=prod","/${project.build.finalName}.jar"]
+                    </entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

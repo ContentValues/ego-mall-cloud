@@ -12,7 +12,6 @@
     <artifactId>mall-portal</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.macro.mall</groupId>
             <artifactId>mall-common</artifactId>
@@ -25,17 +24,11 @@
             <groupId>com.macro.mall</groupId>
             <artifactId>mall-security</artifactId>
         </dependency>
-
         <!--mongodb依赖配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-        <!--redis依赖配置-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--        </dependency>-->
         <!--集成消息队列-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

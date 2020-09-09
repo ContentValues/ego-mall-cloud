@@ -1,5 +1,6 @@
 package com.macro.mall.security.aspect;
 
+import com.macro.mall.common.exception.ApiException;
 import com.macro.mall.security.annotation.CacheException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -39,7 +40,8 @@ public class RedisCacheAspect {
         } catch (Throwable throwable) {
             //有CacheException注解的方法需要抛出异常
             if (method.isAnnotationPresent(CacheException.class)) {
-                throw throwable;
+//                throw throwable;
+                throw new ApiException(throwable);
             } else {
                 LOGGER.error(throwable.getMessage());
             }

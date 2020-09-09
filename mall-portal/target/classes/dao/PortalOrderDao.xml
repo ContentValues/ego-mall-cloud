@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.portal.dao.PortalOrderDao">
-    <resultMap id="orderDetailMap" type="com.macro.mall.portal.domain.OmsOrderDetail"
+<mapper namespace="com.macro.mall.dao.PortalOrderDao">
+    <resultMap id="orderDetailMap" type="com.macro.mall.domain.OmsOrderDetail"
                extends="com.macro.mall.mapper.OmsOrderMapper.BaseResultMap">
         <collection property="orderItemList" columnPrefix="ot_"
                     resultMap="com.macro.mall.mapper.OmsOrderItemMapper.BaseResultMap">
